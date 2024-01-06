@@ -22,6 +22,35 @@ import {
     const [name, setName] = useState("");
     const navigation = useNavigation();
     
+    const handleRegister = () => {
+      const user = {
+        name: name,
+        email: email,
+        password: password,
+      };
+  
+      // send a POST  request to the backend API to register the user
+      axios
+        .post("http://localhost:8000/register", user)
+        .then((response) => {
+          console.log(response);
+          Alert.alert(
+            "Registration successful",
+            "You have been registered Successfully"
+          );
+          setName("");
+          setEmail("");
+          setPassword("");
+        })
+        .catch((error) => {
+          Alert.alert(
+            "Registration Error",
+            "An error occurred while registering"
+          );
+          console.log("registration failed", error);
+        });
+    };
+    
     return (
       <SafeAreaView
         style={{ flex: 1, backgroundColor: "white", alignItems: "center",marginTop:50  }}
