@@ -19,6 +19,26 @@ import {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigation = useNavigation();
+
+    const handleLogin = () => {
+      const user = {
+        email: email,
+        password: password,
+      };
+  
+      axios
+        .post("http://localhost:8000/login", user)
+        .then((response) => {
+          console.log(response);
+          const token = response.data.token;
+          AsyncStorage.setItem("authToken", token);
+          navigation.replace("Home");
+        })
+        .catch((error) => {
+          Alert.alert("Login Error", "Invalid Email");
+          console.log(error);
+        });
+    };
     
     return (
       <SafeAreaView
