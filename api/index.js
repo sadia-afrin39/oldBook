@@ -5,6 +5,8 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
+const User = require("./models/user");
+const Order = require("./models/order");
 
 const app = express();
 const port = 8000;
