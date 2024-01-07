@@ -195,6 +195,13 @@ const HomeScreen = () => {
       size: "8GB RAM, 128GB Storage",
     },
   ];
+  const [items, setItems] = useState([
+    { label: "Men's clothing", value: "men's clothing" },
+    { label: "jewelery", value: "jewelery" },
+    { label: "electronics", value: "electronics" },
+    { label: "women's clothing", value: "women's clothing" },
+  ]);
+  
   const [products, setProducts] = useState([]);
   const navigation = useNavigation();
   const [open, setOpen] = useState(false);
@@ -203,12 +210,7 @@ const HomeScreen = () => {
   const { userId, setUserId } = useContext(UserType);
   const [selectedAddress,setSelectedAdress] = useState("");
   console.log(selectedAddress)
-  const [items, setItems] = useState([
-    { label: "Men's clothing", value: "men's clothing" },
-    { label: "jewelery", value: "jewelery" },
-    { label: "electronics", value: "electronics" },
-    { label: "women's clothing", value: "women's clothing" },
-  ]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -221,9 +223,7 @@ const HomeScreen = () => {
 
     fetchData();
   }, []);
-  const onGenderOpen = useCallback(() => {
-    setCompanyOpen(false);
-  }, []);
+
 
   const cart = useSelector((state) => state.cart.cart);
   const [modalVisible, setModalVisible] = useState(false);
@@ -481,7 +481,6 @@ const HomeScreen = () => {
               setItems={setItems}
               placeholder="choose category"
               placeholderStyle={styles.placeholderStyles}
-              onOpen={onGenderOpen}
               // onChangeValue={onChange}
               zIndex={3000}
               zIndexInverse={1000}
