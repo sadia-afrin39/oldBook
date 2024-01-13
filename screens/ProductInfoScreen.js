@@ -23,6 +23,7 @@ import {
     const [addedToCart, setAddedToCart] = useState(false);
     const height = (width * 100) / 100;
     const dispatch = useDispatch();
+    
     const addItemToCart = (item) => {
       setAddedToCart(true);
       dispatch(addToCart(item));

@@ -22,7 +22,7 @@ import {
     const [name, setName] = useState("");
     const navigation = useNavigation();
     
-    const handleRegister = () => {
+    const handleRegister = async () => {
       const user = {
         name: name,
         email: email,

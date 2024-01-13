@@ -6,12 +6,12 @@ const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const User = require("./models/user");
-const Order = require("./models/order");
+//const Order = require("./models/order");
 
 const app = express();
 const port = 8000;
 
-app.use(cors());
+app.use(cors({origin: true, credentials: true}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -21,10 +21,7 @@ app.listen(port, () => {
 
 //Connection to mongoDB
 mongoose
-  .connect("mongodb+srv://SadiaAfrin:12345Tarin@cluster0.3lchog8.mongodb.net/", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect("mongodb+srv://SadiaAfrin:12345Tarin@cluster0.3lchog8.mongodb.net/oldBook")
   .then(() => {
     console.log("Connected to MongoDB");
   })

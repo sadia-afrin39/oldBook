@@ -2,15 +2,13 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LoginScreen from "../screens/LoginScreen";
-import RegisterScreen from "../screens/RegisterScreen";
-import HomeScreen from "../screens/HomeScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Entypo } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-import CartScreen from "../screens/CartScreen";
-import ProfileScreen from "../screens/ProfileScreen";
+import LoginScreen from "../screens/LoginScreen";
+import RegisterScreen from "../screens/RegisterScreen";
+import HomeScreen from "../screens/HomeScreen";
 import ProductInfoScreen from "../screens/ProductInfoScreen";
 
 const StackNavigator = () => {
@@ -47,22 +45,6 @@ const StackNavigator = () => {
                 <Ionicons name="person" size={24} color="#008E97" />
               ) : (
                 <Ionicons name="person-outline" size={24} color="black" />
-              ),
-          }}
-        />
-
-        <Tab.Screen
-          name="Cart"
-          component={CartScreen}
-          options={{
-            tabBarLabel: "Cart",
-            tabBarLabelStyle: { color: "#008E97" },
-            headerShown: false,
-            tabBarIcon: ({ focused }) =>
-              focused ? (
-                <AntDesign name="shoppingcart" size={24} color="#008E97" />
-              ) : (
-                <AntDesign name="shoppingcart" size={24} color="black" />
               ),
           }}
         />
