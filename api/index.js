@@ -6,6 +6,8 @@ const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const User = require("./models/user");
+const Books = require("./models/books");
+
 //const Order = require("./models/order");
 
 const app = express();
@@ -69,5 +71,26 @@ app.post("/login", async (req, res) => {
     res.status(200).json({ token });
   } catch (error) {
     res.status(500).json({ message: "Login Failed" });
+  }
+});
+
+app.post('/createbook', async (req, res) => {
+  const { name, authors,publisher,publishingyear,category,callnumber,stores,image } = req.body;
+  try {
+    let existingBook = await Books.findOne({ name });
+
+    if (!existingBook) {
+      existingBook = new Books({ name, authors,publisher,publishingyear,category,callnumber,stores,image });
+    } else {
+      // If the book exists, add store information to its store array
+      existingBook.stores.push(...stores);
+    }
+
+    // Save the book (whether existing or new)
+    await existingBook.save();
+    res.status(201).json(existingBook);
+  } catch (error) {
+    console.error('Error adding new book or store information:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
