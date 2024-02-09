@@ -91,8 +91,7 @@ app.post('/createstore', async (req, res) => {
   }
 });
 
-//Create a new book
-app.post('/createbook', async (req, res) => {
+app.post("/createbook", async (req, res) => {
   try {
     const { name, authors, publisher, publishingyear, category, callnumber, stores, image } = req.body;
 
@@ -100,33 +99,42 @@ app.post('/createbook', async (req, res) => {
     let existingBook = await Book.findOne({ name });
 
     if (existingBook) {
-        // Book already exists, update stores array if necessary
-        for (const storeId of stores) {
-            if (!existingBook.stores.includes(storeId)) {
-                existingBook.stores.push(...stores);
-            }
+      // Book already exists, update stores array if necessary
+      for (const storeInfo of stores) {
+        const storeId = storeInfo.store;
+        const existingStoreInfo = existingBook.stores.find(store => store.store.equals(storeId));
+        if (!existingStoreInfo) {
+          existingBook.stores.push(storeInfo);
+          await existingBook.save();
+        }else{
+          return res.status(500).json({ message: "This book is already stored in this store" });
         }
-        await existingBook.save();
+      }      
     } else {
-        // Book doesn't exist, create a new one
-        const newBook = new Book({ name, authors, publisher, publishingyear, category, callnumber, stores, image });
-        await newBook.save();
-        existingBook = newBook;
+      // Book doesn't exist, create a new one
+      const newBook = new Book({ 
+        name, 
+        authors, 
+        publisher, 
+        publishingyear, 
+        category, 
+        callnumber, 
+        image,
+        stores: stores.map(storeInfo => ({ store: storeInfo.store, price: storeInfo.price, quantity: storeInfo.quantity }))
+      });
+      await newBook.save();
+      existingBook = newBook;
     }
 
     // Update stores with book information
-    for (const storeId of stores) {
-        const store = await Store.findById(storeId);
-        if (store) {
-            const existingBookInStore = store.books.find(book => book.id.equals(existingBook._id));
-            if (!existingBookInStore) {
-                store.books.push({ id: existingBook._id});
-                await store.save();
-            }
-        }
+    for (const storeInfo of stores) {
+      const storeId = storeInfo.store;
+      const store = await Store.findById(storeId);
+      store.books.push({ book: existingBook._id });
+      await store.save();
     }
-    return res.status(201).json({ message: 'New book created successfully' });
-} catch (error) {
+    return res.status(201).json({ message: "New book created successfully" });
+  } catch (error) {
     console.error('Error adding new book or store information:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
