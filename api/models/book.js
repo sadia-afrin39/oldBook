@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const booksSchema = new mongoose.Schema({
+const bookSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -32,38 +32,25 @@ const booksSchema = new mongoose.Schema({
    
   stores: [
     {
-      name: {
-        type: String,
+      id:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Store",
         required: true,
-      },
-      owner: {
-          type: String,
-          required: true,
-      },
-      location:{
-          type: String,
-          required: true,
       },
       price: {
         type: Number,
         required: true,
       },
-      discount: {
-        type: Number,
-      },
       quantity: {
         type: Number,
         required: true,
-    },
-    },
+      } 
+    }
   ],
-  image: {
-    type: String,
-    required: true,
-  },
+  image: String,
 });
 
 
-const Books = mongoose.model("Books",booksSchema);
+const Book = mongoose.model("Book",bookSchema);
 
-module.exports = Books;
+module.exports = Book;
